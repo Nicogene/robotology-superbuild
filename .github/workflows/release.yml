@@ -86,6 +86,13 @@ jobs:
         git add .
         git commit -m "Updating conda/cmake/CondaGenerationOptions.cmake for ${{ steps.determine-version.outputs.release_version }}"
 
+        # For patch releases, copy the yaml file from master to the release branch
+        if [ ${{ steps.determine-version.outputs.patch_version }} -gt 0 ]; then
+          git checkout origin/master -- releases/${{ steps.determine-version.outputs.release_version }}.yaml
+          git add releases/${{ steps.determine-version.outputs.release_version }}.yaml
+          git commit -m "Adding ${{ steps.determine-version.outputs.release_version }}.yaml for patch release"
+        fi
+
         git push --set-upstream origin releases/${{ github.event.inputs.superbuild_year_month_prefix }}
 
     - name: Create and push the release tag
