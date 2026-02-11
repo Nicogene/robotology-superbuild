@@ -78,11 +78,11 @@ jobs:
         git add .
         git commit -m "Updating RobotologySuperbuildOptions.cmake for ${{ steps.determine-version.outputs.release_version }}"
 
-        sed -i -e 's/set(INSTALLER_VERSION "")/set(INSTALLER_VERSION ${{ steps.determine-version.outputs.release_version }})/g' ./packaging/windows/CMakeLists.txt
+        sed -i -e 's/set(INSTALLER_VERSION "[^"]*")/set(INSTALLER_VERSION "${{ steps.determine-version.outputs.release_version }}")/g' ./packaging/windows/CMakeLists.txt
         git add .
         git commit -m "Updating packaging/windows/CMakeLists.txt for ${{ steps.determine-version.outputs.release_version }}"
 
-        sed -i -e 's/set(CONDA_ROBOTOLOGY_SUPERBUILD_VERSION "")/set(CONDA_ROBOTOLOGY_SUPERBUILD_VERSION ${{ steps.determine-version.outputs.release_version }})/g' ./conda/cmake/CondaGenerationOptions.cmake
+        sed -i -e 's/set(CONDA_ROBOTOLOGY_SUPERBUILD_VERSION "[^"]*")/set(CONDA_ROBOTOLOGY_SUPERBUILD_VERSION "${{ steps.determine-version.outputs.release_version }}")/g' ./conda/cmake/CondaGenerationOptions.cmake
         git add .
         git commit -m "Updating conda/cmake/CondaGenerationOptions.cmake for ${{ steps.determine-version.outputs.release_version }}"
 
