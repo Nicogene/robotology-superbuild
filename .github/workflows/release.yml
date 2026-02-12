@@ -73,12 +73,12 @@ jobs:
         fi
 
         # Update the configuration files with the release version
-        sed -i -e 's/set(ROBOTOLOGY_PROJECT_TAGS_CUSTOM_FILE/set(ROBOTOLOGY_PROJECT_TAGS_CUSTOM_FILE "\${CMAKE_CURRENT_SOURCE_DIR}\/releases\/${{ steps.determine-version.outputs.release_version }}.yaml"/g' ./cmake/RobotologySuperbuildOptions.cmake
+        sed -i -e 's/\(set(ROBOTOLOGY_PROJECT_TAGS_CUSTOM_FILE\) *[^ ]* *CACHE/\1 "\${CMAKE_CURRENT_SOURCE_DIR}\/releases\/${{ steps.determine-version.outputs.release_version }}.yaml" CACHE/g' ./cmake/RobotologySuperbuildOptions.cmake
         sed -i -e 's/set(ROBOTOLOGY_PROJECT_TAGS "Stable"/set(ROBOTOLOGY_PROJECT_TAGS "Custom"/g' ./cmake/RobotologySuperbuildOptions.cmake
         git add .
         git commit -m "Updating RobotologySuperbuildOptions.cmake for ${{ steps.determine-version.outputs.release_version }}"
 
-        sed -i -e 's/set(INSTALLER_VERSION [^ )]*)/set(INSTALLER_VERSION "${{ steps.determine-version.outputs.release_version }}")/g' ./packaging/windows/CMakeLists.txt
+        sed -i -e 's/set(INSTALLER_VERSION [^ )]*)/set(INSTALLER_VERSION ${{ steps.determine-version.outputs.release_version }})/g' ./packaging/windows/CMakeLists.txt
         git add .
         git commit -m "Updating packaging/windows/CMakeLists.txt for ${{ steps.determine-version.outputs.release_version }}"
 
